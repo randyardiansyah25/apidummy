@@ -10,8 +10,8 @@ func main() {
 	_ = glg.Log(os.Getenv("application.name"))
 	_ = glg.Log(os.Getenv("application.desc"))
 	_ = glg.Log(os.Getenv("application.ver"))
-	if err := StartServer(); err != nil{
-		_=glg.Log(err.Error())
+	if err := StartServer(); err != nil {
+		_ = glg.Log(err.Error())
 	}
 }
 
@@ -25,7 +25,7 @@ func init() {
 		AddLevelWriter(glg.DEBG, log).
 		AddLevelWriter(glg.INFO, log)
 
-	if err:=godotenv.Load("config.env"); err != nil {
+	if err := godotenv.Load("config.env"); err != nil {
 		glg.Fatalln(err.Error())
 	}
 
@@ -36,5 +36,4 @@ func init() {
 		os.Getenv("database.pass"),
 		os.Getenv("database.name"),
 	)
-
 }
