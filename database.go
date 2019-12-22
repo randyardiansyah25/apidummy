@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/kpango/glg"
 )
 
 type Database struct {
@@ -34,6 +35,7 @@ func (d *Database) Connect(host, port, uname, pass, dbname string) {
 		port,
 		dbname,
 	)
+	_ = glg.Log("connecting :", dbSource)
 
 	c, err := sql.Open("mysql", dbSource)
 	if err != nil {
@@ -42,13 +44,13 @@ func (d *Database) Connect(host, port, uname, pass, dbname string) {
 		return
 	}
 
-	d.mySQLconn = c
-
-	err = d.mySQLconn.Ping()
+	err = c.Ping()
 	if err != nil {
 		d.Connected = false
 		d.Status = fmt.Sprintf("%s %s@%s; %s", "Unable to connect", host, dbname, err.Error())
+		return
 	}
+	d.mySQLconn = c
 	d.Status = "Connected"
 	d.Connected = true
 }
